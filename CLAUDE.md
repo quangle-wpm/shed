@@ -1,10 +1,10 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code when working with this repository.
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
 ## What This Repo Is
 
-A digital shed — personal scripts and config files only. No applications, no notes.
+A digital shed — personal scripts and config files only. No applications, no notes. No symlinking/installation logic, no build system, no test framework.
 
 ## Linting
 
@@ -19,6 +19,28 @@ Pre-commit hooks run linting automatically:
 uv tool install pre-commit
 pre-commit install
 ```
+
+Note: PowerShell scripts are not linted automatically (PSScriptAnalyzer unavailable on Linux dev machine).
+
+## Script Conventions
+
+### Bash (`scripts/linux/`)
+
+- Shebang: `#!/usr/bin/env bash`
+- Strict mode: `set -euo pipefail`
+- Named `kebab-case.sh`, executable bit tracked in git (`chmod +x`)
+- Entry point wrapped in `main()` function, called as `main "$@"`
+
+### PowerShell (`scripts/windows/`)
+
+- `#Requires -Version 5.1` + `Set-StrictMode -Version Latest` + `$ErrorActionPreference = 'Stop'`
+- Named `kebab-case.ps1`
+- Entry point wrapped in `Main` function
+
+### Config files (`config/`)
+
+- Named exactly as deployed (e.g. `.gitconfig`, `.zshrc`, `starship.toml`) — flat layout, no subdirectories
+- Files are source references; linking/copying is done manually outside this repo
 
 ## Adding a Script
 

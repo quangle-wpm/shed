@@ -4,14 +4,14 @@ A collection of personal scripts and config files.
 
 ## Structure
 
-| Path | Purpose |
-| ---- | ------- |
-| `scripts/linux/setup/` | Linux environment bootstrap scripts |
-| `scripts/linux/utils/` | Linux day-to-day utility scripts |
-| `scripts/windows/setup/` | Windows bootstrap scripts (Scoop, services) |
-| `scripts/windows/utils/` | Windows utility scripts |
-| `config/` | Dotfiles and config snippets, named as deployed |
-| `templates/` | Starter templates for new scripts |
+| Path                     | Purpose                                         |
+| ------------------------ | ----------------------------------------------- |
+| `scripts/linux/setup/`   | Linux environment bootstrap scripts             |
+| `scripts/linux/utils/`   | Linux day-to-day utility scripts                |
+| `scripts/windows/setup/` | Windows bootstrap scripts (Scoop, services)     |
+| `scripts/windows/utils/` | Windows utility scripts                         |
+| `config/`                | Dotfiles and config snippets, named as deployed |
+| `templates/`             | Starter templates for new scripts               |
 
 ## Adding a Script
 
