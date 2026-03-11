@@ -32,7 +32,7 @@ Drop the file into `config/` named exactly as it would be deployed
 ## Linting
 
 ```bash
-shellcheck scripts/linux/**/*.sh   # lint all bash scripts
+find scripts/linux -name '*.sh' -exec shellcheck {} +   # lint all bash scripts
 markdownlint '**/*.md'             # lint all markdown files
 ```
 
