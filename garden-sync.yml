@@ -1,0 +1,7 @@
+mappings:
+  - config: config/wsl/wsl.conf
+    note: notes/windows/wsl.md
+    marker: wsl.conf
+  - config: config/wsl/.wslconfig
+    note: notes/windows/wsl.md
+    marker: .wslconfig
