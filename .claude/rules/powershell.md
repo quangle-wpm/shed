@@ -1,7 +1,7 @@
 ---
 paths:
-  - "scripts/windows/**"
-  - "templates/windows.ps1"
+    - "scripts/windows/**"
+    - "templates/windows.ps1"
 ---
 
 - Header: `#Requires -Version 5.1`, `Set-StrictMode -Version Latest`, `$ErrorActionPreference = 'Stop'`

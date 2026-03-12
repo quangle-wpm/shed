@@ -6,7 +6,7 @@ $ErrorActionPreference = 'Stop'
 # Usage: .\script-name.ps1 [-Param value]
 
 function Main {
-    Write-Host "Hello from $($MyInvocation.MyCommand.Name)"
+    Write-Output "Hello from $($MyInvocation.MyCommand.Name)"
 }
 
 Main

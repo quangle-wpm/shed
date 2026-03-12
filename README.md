@@ -17,11 +17,11 @@ A collection of personal scripts and config files.
 
 ```bash
 # Linux
-cp templates/linux.sh scripts/linux/<setup|utils>/my-script.sh
-chmod +x scripts/linux/<setup|utils>/my-script.sh
+cp templates/linux.sh scripts/linux/ <setup|utils>/my-script.sh
+chmod +x scripts/linux/ <setup|utils>/my-script.sh
 
 # Windows
-cp templates/windows.ps1 scripts/windows/<setup|utils>/my-script.ps1
+cp templates/windows.ps1 scripts/windows/ <setup|utils>/my-script.ps1
 ```
 
 ## Adding a Config File
@@ -32,8 +32,8 @@ Drop the file into `config/` named exactly as it would be deployed
 ## Linting
 
 ```bash
-find scripts/linux -name '*.sh' -exec shellcheck {} +   # lint all bash scripts
-markdownlint '**/*.md'             # lint all markdown files
+find scripts/linux -name '*.sh' -exec shellcheck {} + # lint all bash scripts
+markdownlint '**/*.md'                                # lint all markdown files
 ```
 
 Pre-commit hooks run both automatically:

@@ -1,6 +1,6 @@
 ---
 paths:
-  - "config/**"
+    - "config/**"
 ---
 
 - Named exactly as deployed (e.g. `.gitconfig`, `.zshrc`, `starship.toml`)

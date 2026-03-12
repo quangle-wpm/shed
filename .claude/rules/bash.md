@@ -1,7 +1,7 @@
 ---
 paths:
-  - "scripts/linux/**"
-  - "templates/linux.sh"
+    - "scripts/linux/**"
+    - "templates/linux.sh"
 ---
 
 - Shebang: `#!/usr/bin/env bash`, strict mode: `set -euo pipefail`
