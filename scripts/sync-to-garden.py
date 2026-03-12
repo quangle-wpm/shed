@@ -79,7 +79,7 @@ def github_get(token, path):
 def github_put(token, path, content, sha, message):
     """Write an updated file back to the garden repo."""
     url = f"{GITHUB_API}/repos/{GARDEN_REPO}/contents/{path}"
-    body = json.dumps(
+    payload = json.dumps(
         {
             "message": message,
             "content": base64.b64encode(content.encode("utf-8")).decode("ascii"),
@@ -88,7 +88,7 @@ def github_put(token, path, content, sha, message):
     ).encode("utf-8")
     req = urllib.request.Request(
         url,
-        data=body,
+        data=payload,
         method="PUT",
         headers={
             "Authorization": f"Bearer {token}",
