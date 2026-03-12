@@ -13,6 +13,12 @@ repos:
 
   - repo: local
     hooks:
+      - id: prettier
+        name: prettier (shell + markdown)
+        language: system
+        entry: bash -c 'prettier --write --plugin "$(npm root -g)/prettier-plugin-sh/lib/index.cjs" "$@"' --
+        files: \.(sh|md)$
+
       - id: psscriptanalyzer
         name: PSScriptAnalyzer
         language: system
