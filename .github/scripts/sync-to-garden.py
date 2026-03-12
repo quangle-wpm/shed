@@ -13,7 +13,7 @@ import urllib.request
 GARDEN_REPO = "quangle-wpm/garden"
 GITHUB_API = "https://api.github.com"
 
-REPO_ROOT = pathlib.Path(__file__).resolve().parent.parent
+REPO_ROOT = pathlib.Path(__file__).resolve().parent.parent.parent
 
 
 def parse_manifest(text):
