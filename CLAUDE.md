@@ -9,9 +9,9 @@ A digital shed — personal scripts and config files only. No applications, no n
 ## Linting
 
 ```bash
-find scripts/linux -name '*.sh' -exec shellcheck {} +   # lint bash scripts
-markdownlint '**/*.md'                                   # lint markdown
-pwsh -Command "Invoke-ScriptAnalyzer -Path scripts/windows -Recurse -EnableExit"  # lint PowerShell
+find scripts/linux -name '*.sh' -exec shellcheck {} +                            # lint bash scripts
+npx markdownlint-cli2 '**/*.md'                                                  # lint markdown
+pwsh -Command "Invoke-ScriptAnalyzer -Path scripts/windows -Recurse -EnableExit" # lint PowerShell
 ```
 
 Pre-commit hooks run all three automatically:
@@ -29,11 +29,11 @@ Copy the relevant template and fill in description and body:
 
 ```bash
 # Linux
-cp templates/linux.sh scripts/linux/ <setup|utils>/<slug>.sh
-chmod +x scripts/linux/ <setup|utils>/<slug>.sh
+cp templates/linux.sh scripts/linux/ < setup | utils > / < slug > .sh
+chmod +x scripts/linux/ < setup | utils > / < slug > .sh
 
 # Windows
-cp templates/windows.ps1 scripts/windows/ <setup|utils>/<slug>.ps1
+cp templates/windows.ps1 scripts/windows/ < setup | utils > / < slug > .ps1
 ```
 
 ## Adding a Config File
