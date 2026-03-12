@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Sync shed config files into marked sections of garden notes."""
+"""Sync shed config files into marked sections of garden files."""
 
 import base64
 import json
@@ -26,14 +26,14 @@ def parse_manifest(text):
             if current:
                 mappings.append(current)
             current = {"config": line.split(":", 1)[1].strip()}
-        elif line.startswith("    note:"):
-            current["note"] = line.split(":", 1)[1].strip()
+        elif line.startswith("    file:"):
+            current["file"] = line.split(":", 1)[1].strip()
         elif line.startswith("    marker:"):
             current["marker"] = line.split(":", 1)[1].strip()
     if current:
         mappings.append(current)
     for i, m in enumerate(mappings):
-        for key in ("config", "note", "marker"):
+        for key in ("config", "file", "marker"):
             if key not in m:
                 raise ValueError(f"Mapping {i} missing required key '{key}'")
     return mappings
@@ -135,7 +135,7 @@ def main():
 
     for mapping in mappings:
         config_path = REPO_ROOT / mapping["config"]
-        note_path = mapping["note"]
+        file_path = mapping["file"]
         marker = mapping["marker"]
 
         # Step 1: read local config
@@ -146,18 +146,18 @@ def main():
             sys.exit(1)
         config_content = config_path.read_text().rstrip("\r\n")
 
-        # Step 2: GET garden note
-        note_content, sha = github_get(token, note_path)
+        # Step 2: GET garden file
+        file_content, sha = github_get(token, file_path)
 
         # Step 3: find markers
         escaped = re.escape(marker)
         pattern = (
             rf"<!-- shed:{escaped}:start -->([\s\S]*?)<!-- shed:{escaped}:end -->"
         )
-        match = re.search(pattern, note_content)
+        match = re.search(pattern, file_content)
         if not match:
             print(
-                f"WARNING: marker '{marker}' not found in {note_path} — skipping",
+                f"WARNING: marker '{marker}' not found in {file_path} — skipping",
                 file=sys.stderr,
             )
             continue
@@ -175,10 +175,10 @@ def main():
             print(f"no change: {marker}")
             continue
 
-        # Step 5: patch note and PUT back
-        updated_note = note_content[: match.start()] + replacement + note_content[match.end() :]
-        github_put(token, note_path, updated_note, sha, f"chore: sync {marker} from shed")
-        print(f"synced: {marker} -> {note_path}")
+        # Step 5: patch file and PUT back
+        updated_file = file_content[: match.start()] + replacement + file_content[match.end() :]
+        github_put(token, file_path, updated_file, sha, f"chore: sync {marker} from shed")
+        print(f"synced: {marker} -> {file_path}")
 
 
 if __name__ == "__main__":
