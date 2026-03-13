@@ -16,29 +16,31 @@ A collection of personal scripts and config files.
 ## Adding a Script
 
 ```bash
-# Linux
-cp templates/linux.sh scripts/linux/ < setup | utils > /my-script.sh
-chmod +x scripts/linux/ < setup | utils > /my-script.sh
+# Linux — replace CATEGORY with setup or utils, SLUG with script name
+cp templates/linux.sh scripts/linux/CATEGORY/SLUG.sh
+chmod +x scripts/linux/CATEGORY/SLUG.sh
 
 # Windows
-cp templates/windows.ps1 scripts/windows/ < setup | utils > /my-script.ps1
+cp templates/windows.ps1 scripts/windows/CATEGORY/SLUG.ps1
 ```
 
 ## Adding a Config File
 
-Drop the file into `config/` named exactly as it would be deployed
-(e.g. `.gitconfig`, `.zshrc`, `starship.toml`).
+Drop the file into `config/<category>/` named as it would be deployed (e.g. `.gitconfig`, `.zshrc`). Add a new subdirectory for a new tool/context.
 
 ## Linting
 
 ```bash
-find scripts/linux -name '*.sh' -exec shellcheck {} + # lint all bash scripts
-npx markdownlint-cli2 '**/*.md'                       # lint all markdown files
+find scripts/linux -name '*.sh' -exec shellcheck {} +                            # lint bash scripts
+npx markdownlint-cli2 '**/*.md'                                                  # lint markdown
+pwsh -Command "Invoke-ScriptAnalyzer -Path scripts/windows -Recurse -EnableExit" # lint PowerShell
 ```
 
-Pre-commit hooks run both automatically:
+Pre-commit hooks run all three automatically:
 
 ```bash
 uv tool install pre-commit
 pre-commit install
 ```
+
+Requires `pwsh` and PSScriptAnalyzer (`Install-Module PSScriptAnalyzer`) for the PowerShell hook.

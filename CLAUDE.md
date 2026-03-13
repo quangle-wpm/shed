@@ -23,19 +23,24 @@ pre-commit install
 
 Requires `pwsh` and PSScriptAnalyzer (`Install-Module PSScriptAnalyzer`) for the PowerShell hook.
 
+## Script Categories
+
+- `setup/` — one-time environment setup scripts (install tools, configure system)
+- `utils/` — recurring utility scripts (helpers, sync tools)
+
 ## Adding a Script
 
 Copy the relevant template and fill in description and body:
 
 ```bash
-# Linux
-cp templates/linux.sh scripts/linux/ < setup | utils > / < slug > .sh
-chmod +x scripts/linux/ < setup | utils > / < slug > .sh
+# Linux — replace CATEGORY with setup or utils, SLUG with script name
+cp templates/linux.sh scripts/linux/CATEGORY/SLUG.sh
+chmod +x scripts/linux/CATEGORY/SLUG.sh
 
 # Windows
-cp templates/windows.ps1 scripts/windows/ < setup | utils > / < slug > .ps1
+cp templates/windows.ps1 scripts/windows/CATEGORY/SLUG.ps1
 ```
 
 ## Adding a Config File
 
-Drop the file into `config/` named as it would be deployed (e.g. `.gitconfig`, `.zshrc`).
+Drop the file into `config/<category>/` named as it would be deployed (e.g. `.gitconfig`, `.zshrc`). Add a new subdirectory for a new tool/context.
