@@ -10,7 +10,7 @@ repos:
       - id: prettier-ps1
         name: prettier (powershell)
         language: system
-        entry: bash -c 'for f in "$@"; do pwsh -NoProfile -Command "Set-Content $f (Invoke-Formatter -ScriptDefinition (Get-Content $f -Raw))"; done' --
+        entry: bash -c 'for f in "$@"; do pwsh -NoProfile -Command "[System.IO.File]::WriteAllText(\"$f\", (Invoke-Formatter -ScriptDefinition (Get-Content \"$f\" -Raw)).TrimEnd() + [char]10)"; done' --
         types: [file]
         files: \.ps1$
 
