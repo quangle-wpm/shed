@@ -6,27 +6,27 @@
         "hooks": [
           {
             "type": "command",
-            "command": "file=$(echo \"$CLAUDE_TOOL_INPUT\" | python3 -c \"import sys,json; d=json.load(sys.stdin); print(d.get('file_path',''))\" 2>/dev/null); [[ \"$file\" == *.sh ]] && npx prettier --write --plugin \"$(npm root -g)/prettier-plugin-sh/lib/index.cjs\" \"$file\" 2>/dev/null || true"
+            "command": "file=$(echo \"$CLAUDE_TOOL_INPUT\" | jq -r '.file_path // \"\"' 2>/dev/null); [[ \"$file\" == *.sh ]] && npx prettier --write --plugin \"$(npm root -g)/prettier-plugin-sh/lib/index.cjs\" \"$file\" 2>/dev/null || true"
           },
           {
             "type": "command",
-            "command": "file=$(echo \"$CLAUDE_TOOL_INPUT\" | python3 -c \"import sys,json; d=json.load(sys.stdin); print(d.get('file_path',''))\" 2>/dev/null); if [[ \"$file\" == *.sh ]]; then shellcheck \"$file\"; fi"
+            "command": "file=$(echo \"$CLAUDE_TOOL_INPUT\" | jq -r '.file_path // \"\"' 2>/dev/null); if [[ \"$file\" == *.sh ]]; then shellcheck \"$file\"; fi"
           },
           {
             "type": "command",
-            "command": "file=$(echo \"$CLAUDE_TOOL_INPUT\" | python3 -c \"import sys,json; d=json.load(sys.stdin); print(d.get('file_path',''))\" 2>/dev/null); [[ \"$file\" == *.md ]] && npx prettier --write \"$file\" 2>/dev/null || true"
+            "command": "file=$(echo \"$CLAUDE_TOOL_INPUT\" | jq -r '.file_path // \"\"' 2>/dev/null); [[ \"$file\" == *.md ]] && npx prettier --write \"$file\" 2>/dev/null || true"
           },
           {
             "type": "command",
-            "command": "file=$(echo \"$CLAUDE_TOOL_INPUT\" | python3 -c \"import sys,json; d=json.load(sys.stdin); print(d.get('file_path',''))\" 2>/dev/null); if [[ \"$file\" == *.md ]]; then npx markdownlint-cli2 --config .markdownlint.json \"$file\"; fi"
+            "command": "file=$(echo \"$CLAUDE_TOOL_INPUT\" | jq -r '.file_path // \"\"' 2>/dev/null); if [[ \"$file\" == *.md ]]; then npx markdownlint-cli2 --config .markdownlint.json \"$file\"; fi"
           },
           {
             "type": "command",
-            "command": "file=$(echo \"$CLAUDE_TOOL_INPUT\" | python3 -c \"import sys,json; d=json.load(sys.stdin); print(d.get('file_path',''))\" 2>/dev/null); [[ \"$file\" == *.ps1 ]] && pwsh -Command \"\\$f='$file'; Set-Content \\$f (Invoke-Formatter -ScriptDefinition (Get-Content \\$f -Raw))\" 2>/dev/null || true"
+            "command": "file=$(echo \"$CLAUDE_TOOL_INPUT\" | jq -r '.file_path // \"\"' 2>/dev/null); [[ \"$file\" == *.ps1 ]] && pwsh -Command \"\\$f='$file'; Set-Content \\$f (Invoke-Formatter -ScriptDefinition (Get-Content \\$f -Raw))\" 2>/dev/null || true"
           },
           {
             "type": "command",
-            "command": "file=$(echo \"$CLAUDE_TOOL_INPUT\" | python3 -c \"import sys,json; d=json.load(sys.stdin); print(d.get('file_path',''))\" 2>/dev/null); if [[ \"$file\" == *.ps1 ]]; then pwsh -NoProfile -Command \"Invoke-ScriptAnalyzer -Path '$file' -EnableExit\"; fi"
+            "command": "file=$(echo \"$CLAUDE_TOOL_INPUT\" | jq -r '.file_path // \"\"' 2>/dev/null); if [[ \"$file\" == *.ps1 ]]; then pwsh -NoProfile -Command \"Invoke-ScriptAnalyzer -Path '$file' -EnableExit\"; fi"
           }
         ]
       }
