@@ -33,7 +33,7 @@ user_path() { echo "${USER_DIR}/${1#"${PROJ_DIR}/"}"; }
 # Prompt [y/N], reads from /dev/tty. Returns 0 for yes, 1 for no/non-interactive.
 ask_yn() {
   local prompt="$1"
-  [[ -t 0 ]] || return 1
+  [[ -t 2 ]] || return 1
   local answer
   read -r -p "${prompt} [y/N]: " answer < /dev/tty
   [[ "${answer,,}" == "y" ]]
@@ -44,7 +44,7 @@ ask_yn() {
 # or when non-interactive.
 ask_pu() {
   local proj_val="$1" user_val="$2"
-  [[ -t 0 ]] || {
+  [[ -t 2 ]] || {
     echo "${proj_val}"
     return
   }
