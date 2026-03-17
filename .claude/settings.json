@@ -6,27 +6,27 @@
         "hooks": [
           {
             "type": "command",
-            "command": "file=$(echo \"$CLAUDE_TOOL_INPUT\" | jq -r '.file_path // \"\"' 2>/dev/null); [[ \"$file\" == *.sh ]] && npx prettier --write --plugin \"$(npm root -g)/prettier-plugin-sh/lib/index.cjs\" \"$file\" 2>/dev/null || true"
+            "command": "jq -r 'select(.tool_input.file_path | endswith(\".sh\")) | .tool_input.file_path' | xargs -I{} sh -c 'npx prettier --write --plugin \"$(npm root -g)/prettier-plugin-sh/lib/index.cjs\" {} 2>/dev/null || true'"
           },
           {
             "type": "command",
-            "command": "file=$(echo \"$CLAUDE_TOOL_INPUT\" | jq -r '.file_path // \"\"' 2>/dev/null); if [[ \"$file\" == *.sh ]]; then shellcheck \"$file\"; fi"
+            "command": "jq -r 'select(.tool_input.file_path | endswith(\".sh\")) | .tool_input.file_path' | xargs -r shellcheck"
           },
           {
             "type": "command",
-            "command": "file=$(echo \"$CLAUDE_TOOL_INPUT\" | jq -r '.file_path // \"\"' 2>/dev/null); [[ \"$file\" == *.md ]] && npx prettier --write \"$file\" 2>/dev/null || true"
+            "command": "jq -r 'select(.tool_input.file_path | endswith(\".md\")) | .tool_input.file_path' | xargs -r npx prettier --write"
           },
           {
             "type": "command",
-            "command": "file=$(echo \"$CLAUDE_TOOL_INPUT\" | jq -r '.file_path // \"\"' 2>/dev/null); if [[ \"$file\" == *.md ]]; then npx markdownlint-cli2 --config .markdownlint.json \"$file\"; fi"
+            "command": "jq -r 'select(.tool_input.file_path | endswith(\".md\")) | .tool_input.file_path' | xargs -r npx markdownlint-cli2 --config .markdownlint.json"
           },
           {
             "type": "command",
-            "command": "file=$(echo \"$CLAUDE_TOOL_INPUT\" | jq -r '.file_path // \"\"' 2>/dev/null); [[ \"$file\" == *.ps1 ]] && pwsh -Command \"\\$f='$file'; Set-Content \\$f (Invoke-Formatter -ScriptDefinition (Get-Content \\$f -Raw))\" 2>/dev/null || true"
+            "command": "jq -r 'select(.tool_input.file_path | endswith(\".ps1\")) | .tool_input.file_path' | xargs -I{} pwsh -Command \"Set-Content '{}' (Invoke-Formatter -ScriptDefinition (Get-Content '{}' -Raw))\" 2>/dev/null || true"
           },
           {
             "type": "command",
-            "command": "file=$(echo \"$CLAUDE_TOOL_INPUT\" | jq -r '.file_path // \"\"' 2>/dev/null); if [[ \"$file\" == *.ps1 ]]; then pwsh -NoProfile -Command \"Invoke-ScriptAnalyzer -Path '$file' -EnableExit\"; fi"
+            "command": "jq -r 'select(.tool_input.file_path | endswith(\".ps1\")) | .tool_input.file_path' | xargs -I{} pwsh -NoProfile -Command \"Invoke-ScriptAnalyzer -Path '{}' -EnableExit\""
           }
         ]
       }
