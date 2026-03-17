@@ -20,9 +20,17 @@ jobs:
       - name: Run pre-commit autoupdate
         run: pipx run pre-commit autoupdate
 
-      - uses: peter-evans/create-pull-request@v8
+      - id: create-pull-request
+        uses: peter-evans/create-pull-request@v8
         with:
           commit-message: "chore: update pre-commit hooks"
           title: "chore: update pre-commit hooks"
           branch: update-pre-commit-hooks
           delete-branch: true
+
+      - name: Auto-merge
+        if: steps.create-pull-request.outputs.pull-request-number
+        run: gh pr merge "$PR_NUMBER" --auto --squash
+        env:
+          PR_NUMBER: ${{ steps.create-pull-request.outputs.pull-request-number }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
