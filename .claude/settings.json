@@ -6,7 +6,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "jq -r 'select(.tool_input.file_path | endswith(\".sh\")) | .tool_input.file_path' | xargs -I{} sh -c 'npx prettier --write --plugin \"$(npm root -g)/prettier-plugin-sh/lib/index.cjs\" {} 2>/dev/null || true'"
+            "command": "jq -r 'select(.tool_input.file_path | endswith(\".sh\")) | .tool_input.file_path' | xargs -I{} npx prettier --write --plugin \"$(npm root -g)/prettier-plugin-sh/lib/index.cjs\" {} 2>/dev/null || true"
           },
           {
             "type": "command",
