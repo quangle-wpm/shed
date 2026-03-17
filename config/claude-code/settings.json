@@ -52,7 +52,7 @@
     ],
     "defaultMode": "acceptEdits"
   },
-  "model": "opusplan",
+  "model": "opus",
   "effortLevel": "high",
   "alwaysThinkingEnabled": true,
   "enabledPlugins": {
