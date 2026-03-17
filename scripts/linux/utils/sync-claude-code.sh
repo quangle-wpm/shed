@@ -92,12 +92,10 @@ d2_non_json() {
   printf '\n  %s differs from ~/.claude/ version:\n' "$(basename "${proj_file}")"
   diff --color=always "${proj_file}" "${user_file}" || true
   echo ""
-  local _yn
-  ask_yn "  Pull this change into the project?"
-  _yn=$?
-  [[ ${_yn} -eq 0 ]] || return 0
-  cp "${user_file}" "${proj_file}"
-  log "$(basename "${proj_file}") — pulled from ~/.claude/"
+  if ask_yn "  Pull this change into the project?"; then
+    cp "${user_file}" "${proj_file}"
+    log "$(basename "${proj_file}") — pulled from ~/.claude/"
+  fi
 }
 
 # Direction 2: sync tracked JSON leaf paths from ~/.claude/ → project (ask per path).
@@ -112,7 +110,7 @@ d2_json() {
   updated="$(jq '.' "${proj_file}")"
   changed=false
 
-  local _user_only _conflicts _yn
+  local _user_only _conflicts
   _user_only=$(jq -r --slurpfile proj "${proj_file}" \
     "${JQ_LEAF_PATHS}"' as $lp |
     $lp[] | . as $p |
@@ -124,17 +122,15 @@ d2_json() {
     while IFS=$'\t' read -r path_json path_str user_val; do
       printf '\n  %s — "%s" only exists in ~/.claude/:\n' "${name}" "${path_str}"
       printf '    ~/.claude/ : %s\n' "${user_val}"
-      ask_yn "  Add this key to the project?"
-      _yn=$?
-      [[ ${_yn} -eq 0 ]] || continue
-      updated="$(printf '%s' "${updated}" \
-        | jq --argjson p "${path_json}" --argjson v "${user_val}" 'setpath($p; $v)')"
-      changed=true
-      log "${name} — \"${path_str}\" added from ~/.claude/"
+      if ask_yn "  Add this key to the project?"; then
+        updated="$(printf '%s' "${updated}" \
+          | jq --argjson p "${path_json}" --argjson v "${user_val}" 'setpath($p; $v)')"
+        changed=true
+        log "${name} — \"${path_str}\" added from ~/.claude/"
+      fi
     done <<< "${_user_only}"
   fi
 
-  local _conflicts
   _conflicts=$(jq -r --slurpfile u "${user_file}" "${JQ_CONFLICTS}" "${proj_file}")
 
   if [[ -n "${_conflicts}" ]]; then
@@ -142,13 +138,12 @@ d2_json() {
       printf '\n  %s — "%s" differs in ~/.claude/:\n' "${name}" "${path_str}"
       printf '    ~/.claude/ : %s\n' "${user_val}"
       printf '    project    : %s\n' "${proj_val}"
-      ask_yn "  Pull this value into the project?"
-      _yn=$?
-      [[ ${_yn} -eq 0 ]] || continue
-      updated="$(printf '%s' "${updated}" \
-        | jq --argjson p "${path_json}" --argjson v "${user_val}" 'setpath($p; $v)')"
-      changed=true
-      log "${name} — \"${path_str}\" pulled from ~/.claude/"
+      if ask_yn "  Pull this value into the project?"; then
+        updated="$(printf '%s' "${updated}" \
+          | jq --argjson p "${path_json}" --argjson v "${user_val}" 'setpath($p; $v)')"
+        changed=true
+        log "${name} — \"${path_str}\" pulled from ~/.claude/"
+      fi
     done <<< "${_conflicts}"
   fi
 
