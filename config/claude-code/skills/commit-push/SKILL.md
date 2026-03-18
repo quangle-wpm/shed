@@ -2,6 +2,7 @@
 name: commit-push
 description: Use when changes are ready to commit and push directly to main without creating a branch or pull request
 allowed-tools: Bash(git diff:*), Bash(git add:*), Bash(git status:*), Bash(git push:*), Bash(git commit:*)
+disable-model-invocation: true
 ---
 
 ## Context
