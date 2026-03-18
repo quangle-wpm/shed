@@ -1,7 +1,7 @@
 ---
 name: new-script
 description: Create a new script from template. Usage: /new-script <linux|windows> <category/slug> (e.g. /new-script linux utils/my-tool or /new-script windows setup/install-foo)
-disable-model-invocation: true
+disable-model-invocation: false
 ---
 
 Usage: `/new-script <linux|windows> <category/slug>`
