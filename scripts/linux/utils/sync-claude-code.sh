@@ -71,7 +71,7 @@ ask_pu() {
 # "Leaf" = scalar or array (does not recurse into arrays).
 # Example output for {"a":{"b":1},"c":[1,2]}: [["a","b"],["c"]]
 export JQ_LEAF_PATHS
-JQ_LEAF_PATHS=". as \$doc | [paths(scalars, arrays) | select(. as \$p | all(range(length - 1); . as \$i | (\$doc | getpath(\$p[:\$i+1]) | type) != \"array\"))]"
+JQ_LEAF_PATHS=". as \$doc | [paths(type != \"object\") | select(. as \$p | all(range(length - 1); . as \$i | (\$doc | getpath(\$p[:\$i+1]) | type) != \"array\"))]"
 
 # jq filter: TSV of [path_json, path_str, proj_val, user_val] for leaf paths present
 # in both $doc (positional input) and $u[0] (--slurpfile u) with differing values.
