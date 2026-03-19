@@ -50,7 +50,7 @@
     ],
     "defaultMode": "acceptEdits"
   },
-  "model": "opus",
+  "model": "opus[1m]",
   "effortLevel": "high",
   "alwaysThinkingEnabled": true,
   "autoMemoryEnabled": false,
@@ -59,7 +59,8 @@
     "code-simplifier@claude-plugins-official": true,
     "claude-md-management@claude-plugins-official": true,
     "skill-creator@claude-plugins-official": true,
-    "claude-code-setup@claude-plugins-official": true
+    "claude-code-setup@claude-plugins-official": true,
+    "feature-dev@claude-plugins-official": true
   },
   "statusLine": {
     "type": "command",
