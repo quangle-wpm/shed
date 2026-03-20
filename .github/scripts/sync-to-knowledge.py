@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Sync shed config files into marked sections of garden files."""
+"""Sync shed config files into marked sections of knowledge files."""
 
 import base64
 import json
@@ -10,14 +10,14 @@ import sys
 import urllib.error
 import urllib.request
 
-GARDEN_REPO = "quangle-wpm/garden"
+KNOWLEDGE_REPO = "quangle-wpm/knowledge"
 GITHUB_API = "https://api.github.com"
 
 REPO_ROOT = pathlib.Path(__file__).resolve().parent.parent.parent
 
 
 def parse_manifest(text):
-    """Parse garden-sync.yml text into a list of mapping dicts."""
+    """Parse knowledge-sync.yml text into a list of mapping dicts."""
     mappings = []
     current = {}
     for line in text.splitlines():
@@ -53,8 +53,8 @@ def get_lang_tag(filename):
 
 
 def github_get(token, path):
-    """Fetch a file from the garden repo. Returns (content_str, sha)."""
-    url = f"{GITHUB_API}/repos/{GARDEN_REPO}/contents/{path}"
+    """Fetch a file from the knowledge repo. Returns (content_str, sha)."""
+    url = f"{GITHUB_API}/repos/{KNOWLEDGE_REPO}/contents/{path}"
     req = urllib.request.Request(
         url,
         headers={
@@ -77,8 +77,8 @@ def github_get(token, path):
 
 
 def github_put(token, path, content, sha, message):
-    """Write an updated file back to the garden repo."""
-    url = f"{GITHUB_API}/repos/{GARDEN_REPO}/contents/{path}"
+    """Write an updated file back to the knowledge repo."""
+    url = f"{GITHUB_API}/repos/{KNOWLEDGE_REPO}/contents/{path}"
     payload = json.dumps(
         {
             "message": message,
@@ -113,24 +113,24 @@ def github_put(token, path, content, sha, message):
 
 
 def main():
-    token = os.environ.get("GARDEN_TOKEN")
+    token = os.environ.get("KNOWLEDGE_TOKEN")
     if not token:
-        print("ERROR: GARDEN_TOKEN environment variable not set", file=sys.stderr)
+        print("ERROR: KNOWLEDGE_TOKEN environment variable not set", file=sys.stderr)
         sys.exit(1)
 
-    manifest_path = REPO_ROOT / "garden-sync.yml"
+    manifest_path = REPO_ROOT / "knowledge-sync.yml"
     if not manifest_path.exists():
-        print("ERROR: garden-sync.yml not found", file=sys.stderr)
+        print("ERROR: knowledge-sync.yml not found", file=sys.stderr)
         sys.exit(1)
 
     try:
         mappings = parse_manifest(manifest_path.read_text())
     except ValueError as e:
-        print(f"ERROR: garden-sync.yml is malformed: {e}", file=sys.stderr)
+        print(f"ERROR: knowledge-sync.yml is malformed: {e}", file=sys.stderr)
         sys.exit(1)
 
     if not mappings:
-        print("ERROR: garden-sync.yml parsed 0 mappings — check formatting", file=sys.stderr)
+        print("ERROR: knowledge-sync.yml parsed 0 mappings — check formatting", file=sys.stderr)
         sys.exit(1)
 
     for mapping in mappings:
@@ -146,7 +146,7 @@ def main():
             sys.exit(1)
         config_content = config_path.read_text().rstrip("\r\n")
 
-        # Step 2: GET garden file
+        # Step 2: GET knowledge file
         file_content, sha = github_get(token, file_path)
 
         # Step 3: find markers

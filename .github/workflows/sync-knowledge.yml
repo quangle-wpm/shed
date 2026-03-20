@@ -1,0 +1,16 @@
+name: Sync config to knowledge
+
+on:
+    push:
+        branches: [main]
+
+jobs:
+    sync:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v6
+
+            - name: Sync to knowledge
+              run: python3 .github/scripts/sync-to-knowledge.py
+              env:
+                  KNOWLEDGE_TOKEN: ${{ secrets.KNOWLEDGE_TOKEN }}
