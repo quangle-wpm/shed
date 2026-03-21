@@ -13,4 +13,4 @@ jobs:
             - name: Sync to knowledge
               run: python3 .github/scripts/sync-to-knowledge.py
               env:
-                  KNOWLEDGE_TOKEN: ${{ secrets.KNOWLEDGE_TOKEN }}
+                  KNOWLEDGE_TOKEN: ${{ secrets.KNOWLEDGE_READ_WRITE }}
