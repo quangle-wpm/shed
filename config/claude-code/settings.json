@@ -65,5 +65,26 @@
     "type": "command",
     "command": "bunx -y ccstatusline@latest",
     "padding": 0
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          { "type": "command", "command": "$HOME/.claude/hooks/uv.sh" }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          { "type": "command", "command": "$HOME/.claude/hooks/sh.sh" },
+          { "type": "command", "command": "$HOME/.claude/hooks/md.sh" },
+          { "type": "command", "command": "$HOME/.claude/hooks/ps1.sh" },
+          { "type": "command", "command": "$HOME/.claude/hooks/web.sh" }
+        ]
+      }
+    ]
   }
 }
