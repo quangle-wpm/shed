@@ -24,13 +24,9 @@ repos:
     rev: v0.21.0
     hooks:
       - id: markdownlint-cli2
-        args: [
-  "--config",
-  ".markdownlint.json"
-]
+        args: ["--config", ".markdownlint.json"]
 
   - repo: https://github.com/shellcheck-py/shellcheck-py
     rev: v0.11.0.1
     hooks:
       - id: shellcheck
-
