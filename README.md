@@ -4,23 +4,23 @@ A collection of personal scripts and config files.
 
 ## Structure
 
-| Path                     | Purpose                                         |
-| ------------------------ | ----------------------------------------------- |
-| `scripts/linux/setup/`   | Linux environment bootstrap scripts             |
-| `scripts/linux/utils/`   | Linux day-to-day utility scripts                |
-| `scripts/windows/setup/` | Windows bootstrap scripts (Scoop, services)     |
-| `scripts/windows/utils/` | Windows utility scripts                         |
-| `config/`                | Dotfiles and config snippets, named as deployed |
-| `templates/`             | Starter templates for new scripts               |
+| Path                   | Purpose                                 |
+| ---------------------- | --------------------------------------- |
+| `scripts/linux/utils/` | Linux day-to-day utility scripts        |
+| `config/claude-code/`  | Claude Code hooks, settings, and skills |
+| `config/wsl/`          | WSL configuration files                 |
+| `templates/`           | Starter templates for new scripts       |
 
 ## Adding a Script
 
 ```bash
 # Linux — replace CATEGORY with setup or utils, SLUG with script name
+mkdir -p scripts/linux/CATEGORY
 cp templates/linux.sh scripts/linux/CATEGORY/SLUG.sh
 chmod +x scripts/linux/CATEGORY/SLUG.sh
 
 # Windows
+mkdir -p scripts/windows/CATEGORY
 cp templates/windows.ps1 scripts/windows/CATEGORY/SLUG.ps1
 ```
 
