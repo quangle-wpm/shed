@@ -14,6 +14,12 @@ fi
 # Lint
 if command -v npx &> /dev/null; then
   config_args=()
-  [[ -f .markdownlint.json ]] && config_args=(--config .markdownlint.json)
+  if [[ -f .markdownlint.json ]]; then
+    config_args=(--config .markdownlint.json)
+  else
+    _cfg=$(mktemp /tmp/mdl-XXXXXX.json) && printf '{"MD013":false}\n' > "$_cfg"
+    config_args=(--config "$_cfg")
+    trap 'rm -f "$_cfg"' EXIT
+  fi
   npx markdownlint-cli2 "${config_args[@]}" "$file_path" 1>&2 || exit 2
 fi

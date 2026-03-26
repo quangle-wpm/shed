@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
-# Claude Code hook: format and lint web files (.astro, .ts, .css)
+# Claude Code hook: format and lint web files (.astro, .ts, .tsx, .jsx, .js, .css)
 set -uo pipefail
 
 command -v jq &> /dev/null || exit 0
-file_path=$(jq -r 'select(.tool_input.file_path? // "" | test("\\.astro$|\\.ts$|\\.css$")) | .tool_input.file_path')
+file_path=$(jq -r 'select(.tool_input.file_path? // "" | test("\\.astro$|\\.ts$|\\.tsx$|\\.jsx$|\\.js$|\\.css$")) | .tool_input.file_path')
 [[ -z "$file_path" ]] && exit 0
 
 # Format
@@ -12,7 +12,7 @@ if command -v npx &> /dev/null; then
 fi
 
 # Lint (only if eslint config exists in project)
-if [[ "$file_path" =~ \.(astro|ts)$ ]] && compgen -G "eslint.config.*" > /dev/null; then
+if [[ "$file_path" =~ \.(astro|ts|tsx|jsx|js)$ ]] && compgen -G "eslint.config.*" > /dev/null; then
   npx eslint --fix "$file_path" 1>&2 || exit 2
 fi
 
