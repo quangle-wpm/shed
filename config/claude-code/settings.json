@@ -74,6 +74,15 @@
         "hooks": [
           { "type": "command", "command": "$HOME/.claude/hooks/uv.sh" }
         ]
+      },
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/managed-files.sh"
+          }
+        ]
       }
     ],
     "PostToolUse": [
