@@ -20,8 +20,8 @@ Based on the above changes:
 
 1. **Determine commit scope**:
    - If files are already staged, the scope is **exactly those staged files** — keep it locked, ignore untracked and unstaged files entirely.
-   - If nothing is staged, stage all modified and new files with `git add` — those become the scope.
-2. **Review the diff of files in scope** (from step 1 only) to determine if changes span multiple distinct concerns. If so, split into separate commits while staying strictly within the scope from step 1.
+   - If nothing is staged, all modified and new files become the scope.
+2. **Review the diff of files in scope** and group them by distinct concern. Create a separate commit for each group — stage only that group's files, commit, then move to the next group.
 3. Create each commit using Conventional Commits format:
    - `type(scope): description` — type is one of: `feat`, `fix`, `docs`, `style`, `refactor`, `perf`, `test`, `ci`, `chore`, `revert`
    - Use lowercase imperative description (e.g. `add login page`)
