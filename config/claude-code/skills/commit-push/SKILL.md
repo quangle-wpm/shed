@@ -1,6 +1,10 @@
 ---
 name: commit-push
 description: Use when changes are ready to commit and push directly to main without creating a branch or pull request
+context: fork
+model: sonnet
+effort: medium
+allowed-tools: Bash(git status:*), Bash(git diff:*), Bash(git branch:*), Bash(git log:*), Bash(git add:*), Bash(git commit:*), Bash(git push:*), Bash(git stash:*), Bash(git restore:*), Bash(pre-commit run:*)
 ---
 
 ## Context

@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 # Description: Sync Claude Code config between config/claude-code/ and ~/.claude/.
 #              Runs user→project (ask) then project→user (auto+conflict prompts).
-# Usage: ./sync-claude-code.sh
+# Usage: ./sync-claude-code.sh [FILE]
+#        No args: full two-way sync (user→project then project→user).
+#        FILE:    sync a single project file to ~/.claude/ (project→user only).
 
 set -euo pipefail
 
@@ -251,8 +253,27 @@ d1() {
 
 main() {
   check_deps
-  d2
-  d1
+  if [[ $# -gt 0 ]]; then
+    local proj_file
+    proj_file="$(realpath "$1")"
+    [[ -f "${proj_file}" ]] || {
+      echo "ERROR: File not found: $1" >&2
+      exit 1
+    }
+    [[ "${proj_file}" == "${PROJ_DIR}"/* ]] || {
+      echo "ERROR: File not under ${PROJ_DIR}" >&2
+      exit 1
+    }
+    echo "Syncing $(basename "${proj_file}") to ~/.claude/..."
+    if [[ "${proj_file}" == *.json ]]; then
+      d1_json "${proj_file}"
+    else
+      d1_non_json "${proj_file}"
+    fi
+  else
+    d2
+    d1
+  fi
   echo ""
   echo "Done."
 }
