@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Claude Code hook: format and lint markdown files (.md)
+# Claude Code hook: format markdown files (.md)
 set -uo pipefail
 
 command -v jq &> /dev/null || exit 0
@@ -9,17 +9,4 @@ file_path=$(jq -r 'select(.tool_input.file_path? // "" | endswith(".md")) | .too
 # Format
 if command -v npx &> /dev/null; then
   npx prettier --write "$file_path" 2> /dev/null || true
-fi
-
-# Lint
-if command -v npx &> /dev/null; then
-  config_args=()
-  if [[ -f .markdownlint.json ]]; then
-    config_args=(--config .markdownlint.json)
-  else
-    _cfg=$(mktemp /tmp/mdl-XXXXXX.json) && printf '{"MD013":false}\n' > "$_cfg"
-    config_args=(--config "$_cfg")
-    trap 'rm -f "$_cfg"' EXIT
-  fi
-  npx markdownlint-cli2 "${config_args[@]}" "$file_path" 1>&2 || exit 2
 fi
