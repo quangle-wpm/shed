@@ -83,7 +83,7 @@ main() {
   # Step 3: Install Claude Code
   echo ""
   echo "Step 3: Installing Claude Code..."
-  curl -fsSL https://claude.ai/install.sh | sh
+  curl -fsSL https://claude.ai/install.sh | bash
   log "Installed: $(claude --version 2> /dev/null || echo 'unknown version')"
 
   # Step 4: Sync config
