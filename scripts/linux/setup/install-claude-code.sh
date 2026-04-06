@@ -119,7 +119,7 @@ main() {
   echo ""
   echo "Step 6: Installing third-party skills..."
   log "Installing find-docs from context7..."
-  npx ctx7@latest skills install /upstash/context7 find-docs --claude \
+  npx ctx7@latest setup --cli --claude \
     || log "WARNING: failed to install find-docs skill"
 
   echo ""
