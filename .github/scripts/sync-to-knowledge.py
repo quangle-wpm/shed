@@ -102,18 +102,31 @@ def put_file(token, path, content, sha, message, branch):
 
 
 def ensure_branch(token, branch_name, sha):
-    """Delete existing branch (if any) and create it fresh from the given SHA."""
+    """Create or force-update the sync branch to the given SHA."""
     try:
-        github_api(token, "DELETE", f"git/refs/heads/{branch_name}")
+        github_api(
+            token,
+            "PATCH",
+            f"git/refs/heads/{branch_name}",
+            {"sha": sha, "force": True},
+        )
     except urllib.error.HTTPError as exc:
-        if exc.code != 404:
+        if exc.code not in (404, 422):
             raise
-    github_api(
-        token,
-        "POST",
-        "git/refs",
-        {"ref": f"refs/heads/{branch_name}", "sha": sha},
-    )
+        github_api(
+            token,
+            "POST",
+            "git/refs",
+            {"ref": f"refs/heads/{branch_name}", "sha": sha},
+        )
+
+
+def find_open_pr(token, branch):
+    """Return (number, node_id) of an existing open PR from branch, or None."""
+    data = github_api(token, "GET", f"pulls?head=quangle-wpm:{branch}&state=open")
+    if data:
+        return data[0]["number"], data[0]["node_id"]
+    return None
 
 
 def create_pull_request(token, branch, title, body):
@@ -125,6 +138,16 @@ def create_pull_request(token, branch, title, body):
         {"title": title, "head": branch, "base": "main", "body": body},
     )
     return data["number"], data["node_id"]
+
+
+def update_pull_request(token, pr_number, title, body):
+    """Update an existing PR's title and body."""
+    github_api(
+        token,
+        "PATCH",
+        f"pulls/{pr_number}",
+        {"title": title, "body": body},
+    )
 
 
 def enable_auto_merge(token, pr_node_id):
@@ -243,14 +266,21 @@ def main():
         all_markers.extend(markers_changed)
         print(f"synced: {', '.join(markers_changed)} -> {file_path}")
 
-    # Create PR and enable auto-merge.
+    # Create or update PR and enable auto-merge.
     if len(all_markers) <= 3:
         title = f"chore: sync {', '.join(all_markers)} from shed"
     else:
         title = "chore: sync configs from shed"
     body = "Automated sync of config files from shed."
-    pr_number, pr_node_id = create_pull_request(token, SYNC_BRANCH, title, body)
-    print(f"created PR #{pr_number}")
+
+    existing = find_open_pr(token, SYNC_BRANCH)
+    if existing:
+        pr_number, pr_node_id = existing
+        update_pull_request(token, pr_number, title, body)
+        print(f"updated existing PR #{pr_number}")
+    else:
+        pr_number, pr_node_id = create_pull_request(token, SYNC_BRANCH, title, body)
+        print(f"created PR #{pr_number}")
 
     enable_auto_merge(token, pr_node_id)
     print(f"auto-merge enabled for PR #{pr_number}")
