@@ -8,7 +8,6 @@ REPO_URL="https://github.com/quangle-wpm/shed.git"
 INSTALL_SCRIPT="scripts/linux/setup/install-claude-code.sh"
 
 main() {
-  local tmpdir
   tmpdir="$(mktemp -d)"
   trap 'rm -rf "${tmpdir}"' EXIT
 

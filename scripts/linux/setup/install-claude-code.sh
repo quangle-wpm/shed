@@ -84,6 +84,7 @@ main() {
   echo ""
   echo "Step 3: Installing Claude Code..."
   curl -fsSL https://claude.ai/install.sh | bash
+  export PATH="${HOME}/.local/bin:${PATH}"
   log "Installed: $(claude --version 2> /dev/null || echo 'unknown version')"
 
   # Step 4: Sync config
