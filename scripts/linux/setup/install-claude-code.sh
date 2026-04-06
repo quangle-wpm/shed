@@ -100,6 +100,8 @@ main() {
   # Step 5: Install plugins (read from settings.json enabledPlugins keys)
   echo ""
   echo "Step 5: Installing plugins..."
+  log "Updating marketplace catalog..."
+  claude plugin marketplace update || log "WARNING: marketplace update failed"
   local plugins
   plugins="$(jq -r '.enabledPlugins // {} | keys[]' "${SETTINGS_JSON}")"
   if [[ -n "${plugins}" ]]; then
