@@ -95,7 +95,7 @@ d2_non_json() {
   diff --color=always "${proj_file}" "${user_file}" || true
   echo ""
   if ask_yn "  Pull this change into the project?"; then
-    cp "${user_file}" "${proj_file}"
+    cp -p "${user_file}" "${proj_file}"
     log "$(basename "${proj_file}") — pulled from ~/.claude/"
   fi
 }
@@ -171,11 +171,16 @@ d1_non_json() {
   user_file="$(user_path "${proj_file}")"
   if [[ -f "${user_file}" ]] && diff -q "${proj_file}" "${user_file}" > /dev/null 2>&1; then
     log "$(basename "${proj_file}") — already up to date"
-    return 0
+  else
+    mkdir -p "$(dirname "${user_file}")"
+    cp -p "${proj_file}" "${user_file}"
+    log "$(basename "${proj_file}") — copied to ~/.claude/"
   fi
-  mkdir -p "$(dirname "${user_file}")"
-  cp "${proj_file}" "${user_file}"
-  log "$(basename "${proj_file}") — copied to ~/.claude/"
+  # Ensure hook scripts are always executable
+  if [[ -f "${user_file}" && "${user_file}" == "${USER_DIR}/hooks/"* && ! -x "${user_file}" ]]; then
+    chmod +x "${user_file}"
+    log "$(basename "${user_file}") — fixed executable permission"
+  fi
 }
 
 # Direction 1: deep-merge a single JSON project file → ~/.claude/ (auto, conflict prompts).
@@ -188,7 +193,7 @@ d1_json() {
 
   if [[ ! -f "${user_file}" ]]; then
     mkdir -p "$(dirname "${user_file}")"
-    cp "${proj_file}" "${user_file}"
+    cp -p "${proj_file}" "${user_file}"
     log "${name} — copied to ~/.claude/ (new file)"
     return 0
   fi
