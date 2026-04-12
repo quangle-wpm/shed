@@ -9,3 +9,8 @@ updates:
       actions:
         patterns:
           - "*"
+    ignore:
+      - dependency-name: actions/checkout
+      - dependency-name: actions/setup-node
+      - dependency-name: astral-sh/setup-uv
+      - dependency-name: dependabot/fetch-metadata
