@@ -1,4 +1,3 @@
-# This file is managed by quangle-wpm/config. Do not edit.
 name: Auto-merge Dependabot PRs
 
 on: pull_request

@@ -9,6 +9,9 @@ Thumbs.db
 *.swo
 *~
 
+# Node
+node_modules/
+
 # Python (pre-commit)
 __pycache__/
 *.py[cod]
