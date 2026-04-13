@@ -1,0 +1,7 @@
+# This file is managed by quangle-wpm/config. Do not edit.
+config:
+  default: true
+  MD013: false
+  MD041: false
+ignores:
+  - "node_modules/**"

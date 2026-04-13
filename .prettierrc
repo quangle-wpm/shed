@@ -1,3 +1,9 @@
 {
-  "_managed_by": true
+  "_managed_by": "config-sync",
+  "singleQuote": false,
+  "trailingComma": "all",
+  "proseWrap": "preserve",
+  "plugins": [
+    "prettier-plugin-sh"
+  ]
 }
