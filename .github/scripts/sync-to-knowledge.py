@@ -236,9 +236,11 @@ def main():
             lang = get_lang_tag(config_path.name)
             replacement = (
                 f"<!-- shed:{marker}:start -->\n"
+                f"\n"
                 f"```{lang}\n"
                 f"{config_content}\n"
                 f"```\n"
+                f"\n"
                 f"<!-- shed:{marker}:end -->"
             )
             if match.group(0) == replacement:
