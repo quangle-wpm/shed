@@ -3,7 +3,5 @@
   "singleQuote": false,
   "trailingComma": "all",
   "proseWrap": "preserve",
-  "plugins": [
-    "prettier-plugin-sh"
-  ]
+  "plugins": ["prettier-plugin-sh"]
 }
