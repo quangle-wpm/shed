@@ -71,9 +71,7 @@
     "PreToolUse": [
       {
         "matcher": "Bash",
-        "hooks": [
-          { "type": "command", "command": "$HOME/.claude/hooks/uv.sh" }
-        ]
+        "hooks": [{ "type": "command", "command": "$HOME/.claude/hooks/uv.sh" }]
       },
       {
         "matcher": "Edit|Write",
