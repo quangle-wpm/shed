@@ -1,4 +1,3 @@
-# This file is managed by quangle-wpm/config. Do not edit.
 version: 2
 updates:
   - package-ecosystem: github-actions
@@ -9,8 +8,12 @@ updates:
       actions:
         patterns:
           - "*"
-    ignore:
-      - dependency-name: actions/checkout
-      - dependency-name: actions/setup-node
-      - dependency-name: astral-sh/setup-uv
-      - dependency-name: dependabot/fetch-metadata
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+    groups:
+      minor-and-patch:
+        update-types:
+          - minor
+          - patch
