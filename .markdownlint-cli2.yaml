@@ -5,3 +5,4 @@ config:
   MD041: false
 ignores:
   - "node_modules/**"
+  - ".claude/**"

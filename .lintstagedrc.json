@@ -1,8 +1,0 @@
-{
-  "*.{sh,bash}": ["shellcheck", "prettier --write"],
-  "*.md": ["prettier --write", "markdownlint-cli2 --fix"],
-  "*.{ps1,psm1,psd1}": [
-    "pwsh -NoProfile -Command 'foreach ($f in $args) { $c = Get-Content -Raw $f; $o = Invoke-Formatter -ScriptDefinition $c; Set-Content -Path $f -Value $o -NoNewline }'",
-    "pwsh -NoProfile -Command '$fail = $false; foreach ($f in $args) { $r = Invoke-ScriptAnalyzer -Path $f -Severity Warning,Error; if ($r) { $r | Format-Table -AutoSize; $fail = $true } }; if ($fail) { exit 1 }'"
-  ]
-}
