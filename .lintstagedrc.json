@@ -1,5 +1,4 @@
 {
-  "_managed_by": true,
   "*.{sh,bash}": [
     "shellcheck",
     "prettier --write"
