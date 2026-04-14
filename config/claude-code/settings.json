@@ -1,7 +1,9 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-settings.json",
   "respectGitignore": false,
-  "env": {},
+  "env": {
+    "CLAUDE_CODE_SUBAGENT_MODEL": "sonnet"
+  },
   "attribution": {
     "commit": "",
     "pr": ""
@@ -48,6 +50,7 @@
     ],
     "defaultMode": "acceptEdits"
   },
+  "model": "opus",
   "effortLevel": "high",
   "alwaysThinkingEnabled": true,
   "autoMemoryEnabled": false,
@@ -71,7 +74,12 @@
     "PreToolUse": [
       {
         "matcher": "Bash",
-        "hooks": [{ "type": "command", "command": "$HOME/.claude/hooks/uv.sh" }]
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/uv.sh"
+          }
+        ]
       },
       {
         "matcher": "Edit|Write",
@@ -87,10 +95,22 @@
       {
         "matcher": "Edit|Write",
         "hooks": [
-          { "type": "command", "command": "$HOME/.claude/hooks/sh.sh" },
-          { "type": "command", "command": "$HOME/.claude/hooks/md.sh" },
-          { "type": "command", "command": "$HOME/.claude/hooks/ps1.sh" },
-          { "type": "command", "command": "$HOME/.claude/hooks/web.sh" }
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/sh.sh"
+          },
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/md.sh"
+          },
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/ps1.sh"
+          },
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/web.sh"
+          }
         ]
       }
     ],
@@ -104,5 +124,13 @@
         ]
       }
     ]
+  },
+  "extraKnownMarketplaces": {
+    "claude-plugins-official": {
+      "source": {
+        "source": "github",
+        "repo": "anthropics/claude-plugins-official"
+      }
+    }
   }
 }
